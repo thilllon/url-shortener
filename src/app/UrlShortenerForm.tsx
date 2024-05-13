@@ -12,16 +12,14 @@ export function UrlShortenerForm() {
       <form
         onSubmit={async (event) => {
           event.preventDefault();
-          if (!url) {
+          if (!url || !['https://', 'http://'].some((scheme) => url.startsWith(scheme))) {
             return;
           }
-          if (url.startsWith('http://') || url.startsWith('https://')) {
-            const short = await fetch('/api/short', {
-              method: 'POST',
-              body: JSON.stringify({ url }),
-            }).then((res) => res.text());
-            setShortUrl(`${window.location.origin}/s/${short}`);
-          }
+          const short = await fetch('/api/short', {
+            method: 'POST',
+            body: JSON.stringify({ url }),
+          }).then((res) => res.text());
+          setShortUrl(`${window.location.origin}/s/${short}`);
           setUrl('');
         }}
         className='flex justify-center items-center gap-2 h-30'>
