@@ -12,7 +12,10 @@ export function UrlShortenerForm() {
       <form
         onSubmit={async (event) => {
           event.preventDefault();
-          if (url?.startsWith('http://') || url?.startsWith('https://')) {
+          if (!url) {
+            return;
+          }
+          if (url.startsWith('http://') || url.startsWith('https://')) {
             const short = await fetch('/api/short', {
               method: 'POST',
               body: JSON.stringify({ url }),
