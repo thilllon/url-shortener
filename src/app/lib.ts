@@ -8,8 +8,8 @@ const redis = new Redis({
   token: process.env.UPSTASH_REDIS_TOKEN as string,
 });
 
-function createShort(): string {
-  return nanoid(10);
+function createShort(length: number): string {
+  return nanoid(length);
 }
 
 export async function findOriginalUrl(short: string): Promise<string | null> {
@@ -17,7 +17,8 @@ export async function findOriginalUrl(short: string): Promise<string | null> {
 }
 
 export async function saveUrl(url: string) {
-  const short = createShort();
+  // TODO: find url in redis and return short if exists
+  const short = createShort(10);
   await redis.set(short, url);
   return short;
 }
