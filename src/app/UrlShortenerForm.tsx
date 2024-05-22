@@ -56,12 +56,9 @@ export function UrlShortenerForm() {
                 <FormControl>
                   <Input placeholder='Enter URL to shorten' {...field} />
                 </FormControl>
-                <Link href={shortUrl}>
+                <Link href={shortUrl} target='_blank'>
                   <FormDescription>{shortUrl}</FormDescription>
                 </Link>
-                <FormDescription>
-                  <Link href={shortUrl}>{shortUrl}</Link>
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
