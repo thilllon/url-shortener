@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { Loader2 } from 'lucide-react';
 
 const FormSchema = z.object({
   url: z.string().url().min(7, {
@@ -18,6 +19,7 @@ const FormSchema = z.object({
 
 export function UrlShortenerForm() {
   const [shortUrl, setShortUrl] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -31,6 +33,7 @@ export function UrlShortenerForm() {
     if (!url || !['https://', 'http://'].some((scheme) => url.startsWith(scheme))) {
       return;
     }
+    setLoading(true);
     fetch('/api/short', { method: 'POST', body: JSON.stringify({ url }) })
       .then((response) => response.text())
       .then((short) => {
@@ -40,6 +43,9 @@ export function UrlShortenerForm() {
       .catch((error) => {
         console.error(error);
         setShortUrl('');
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
 
@@ -50,20 +56,24 @@ export function UrlShortenerForm() {
           <FormField
             control={form.control}
             name='url'
+            disabled={loading}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{'URL shortener'}</FormLabel>
                 <FormControl>
                   <Input placeholder='Enter URL to shorten' {...field} />
                 </FormControl>
-                <Link href={shortUrl} target='_blank'>
-                  <FormDescription>{shortUrl}</FormDescription>
-                </Link>
+                <FormDescription>
+                  <Link href={shortUrl} target='_blank'>
+                    {shortUrl}
+                  </Link>
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type='submit' className='w-full mt-4'>
+          <Button type='submit' className='w-full mt-4' disabled={loading}>
+            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
             {'Submit'}
           </Button>
         </form>
