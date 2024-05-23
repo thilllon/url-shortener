@@ -1,5 +1,3 @@
-'use server';
-
 import { Redis } from '@upstash/redis';
 import { nanoid } from 'nanoid';
 
@@ -8,7 +6,7 @@ const redis = new Redis({
   token: process.env.UPSTASH_REDIS_TOKEN as string,
 });
 
-export async function findOriginalUrl(short: string): Promise<string | null> {
+export async function findUrlByShort(short: string): Promise<string | null> {
   return redis.get(short);
 }
 

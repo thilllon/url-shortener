@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { findOriginalUrl } from './app/lib';
+import { findUrlByShort } from './app/lib';
 
 const delimiter = '/s/';
 
@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
     if (!request.url.includes(delimiter)) {
       return;
     }
-    const url = await findOriginalUrl(request.url.split(delimiter)[1]);
+    const url = await findUrlByShort(request.url.split(delimiter)[1]);
     if (url === null) {
       return NextResponse.next();
     }
