@@ -11,7 +11,7 @@ export async function findUrlByShort(short: string): Promise<string | null> {
 }
 
 export async function saveUrl(url: string) {
-  const exisitingShort = await redis.hget<Record<string, string>>('urls', url);
+  const exisitingShort = await redis.hget<string>('urls', url);
   if (exisitingShort) {
     return exisitingShort;
   }
