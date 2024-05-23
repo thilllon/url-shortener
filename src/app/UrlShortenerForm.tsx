@@ -46,7 +46,7 @@ export function UrlShortenerForm() {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='max-w-[40rem] w-full mx-16 '>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='max-w-[40rem] w-full mx-16'>
           <FormField
             control={form.control}
             name='url'
@@ -63,7 +63,7 @@ export function UrlShortenerForm() {
               </FormItem>
             )}
           />
-          <Button type='submit' className='w-full'>
+          <Button type='submit' className='w-full mt-4'>
             {'Submit'}
           </Button>
         </form>

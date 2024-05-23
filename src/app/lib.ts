@@ -1,12 +1,9 @@
 'use server';
 
-import { Redis } from '@upstash/redis';
+import Redis from 'ioredis';
 import { nanoid } from 'nanoid';
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_URL as string,
-  token: process.env.UPSTASH_REDIS_TOKEN as string,
-});
+const redis = new Redis(process.env.REDIS_URL as string);
 
 function createShort(length: number): string {
   return nanoid(length);
